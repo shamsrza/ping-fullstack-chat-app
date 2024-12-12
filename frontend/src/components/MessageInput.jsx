@@ -85,7 +85,6 @@ const MessageInput = () => {
             ref={fileInputRef}
             onChange={handleImageChange}
           />
-
           <button
             type="button"
             className={`hidden sm:flex btn btn-circle
@@ -103,6 +102,7 @@ const MessageInput = () => {
           <Send size={22} />
         </button>
     </form>
+    <p className="text-xs text-zinc-400 text-right flex items-center gap-2 ml-1 mt-1">The maximum allowable image size is 100 KB</p>
     </div>
   )
 }
