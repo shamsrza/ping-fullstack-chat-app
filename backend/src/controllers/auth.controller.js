@@ -58,7 +58,7 @@ export const singup = async (req, res) => {
 export const login = async (req, res) => {
     const {email, password} = req.body
     try {
-        const user = await User.findOne({email})
+        const user = await User.findOne({email});
         if(!user){
             return res.status(400).json({ message: "Invalid credentials"})
         }
@@ -74,7 +74,7 @@ export const login = async (req, res) => {
         fullName: user.fullName,
         email: user.email,
         profilePic: user.profilePic
-       })
+       });
 
     } catch (error) {
         console.log("Error is in login controller: ", error.message);

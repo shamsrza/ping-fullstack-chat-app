@@ -1,8 +1,10 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
-
+// import {useState} from 'react';
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
+
+
 
 export const getUsersForSidebar = async (req, res) => {
   try {
@@ -17,6 +19,7 @@ export const getUsersForSidebar = async (req, res) => {
 };
 
 export const getMessages = async (req, res) => {
+
   try {
     const { id: userToChatId } = req.params;
     const myId = req.user._id;
@@ -36,6 +39,7 @@ export const getMessages = async (req, res) => {
 };
 
 export const sendMessage = async (req, res) => {
+
   try {
     const { text, image } = req.body;
     const { id: receiverId } = req.params;
@@ -67,4 +71,4 @@ export const sendMessage = async (req, res) => {
     console.log("Error in sendMessage controller: ", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
-};
+}

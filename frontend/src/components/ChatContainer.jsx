@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { formatMessageTime } from '../lib/utils';
 import { useAuthStore } from '../store/useAuthStore';
 import { useChatStore } from '../store/useChatStore'
@@ -62,6 +62,7 @@ const ChatContainer = () => {
                   }
                   alt="profile pic"
                 />
+                
               </div>
             </div>
             <div className="chat-header mb-1">
@@ -81,6 +82,6 @@ const ChatContainer = () => {
       <MessageInput />
     </div>
   );
-}
+};
 
 export default ChatContainer

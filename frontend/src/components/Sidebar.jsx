@@ -2,14 +2,19 @@ import React, {useEffect, useState} from 'react';
 import { Users } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore.js';
 import { useChatStore } from '../store/useChatStore.js';
-import SidebarSkeleton from "./skeletons/SidebarSkeleton.jsx"
+import SidebarSkeleton from "./skeletons/SidebarSkeleton.jsx";
+// import {hoverNotificationHandler} from './Navbar'
 
 const Sidebar = () => {
 
-  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+  const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading, notification } = useChatStore();
   const {onlineUsers} = useAuthStore();
 
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
+
+  const notificationHandler = () => {
+    notification.length = 0;
+  }
 
   useEffect(() => {
     getUsers()
@@ -48,7 +53,7 @@ const Sidebar = () => {
         {fileteredUsers.map((user) => (
           <button
             key={user._id}
-            onClick={() => setSelectedUser(user)}
+            onClick={() => {notificationHandler(); setSelectedUser(user)}}
             className={`w-full p-3 flex items-center gap-3 hover:bg-base-300 transition-colors ${
               selectedUser?._id === user._id
                 ? "bg-base-300 ring-1 ring-base-300"

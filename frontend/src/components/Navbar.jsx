@@ -1,12 +1,51 @@
-import { LogOut, MessageSquare, Settings, User } from 'lucide-react';
-import React from 'react'
+ import { Bell, LogOut, MessageSquare, Settings, User } from 'lucide-react';
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore'
+import { useChatStore } from '../store/useChatStore'
 
 const Navbar = () => {
 
   const {logout, authUser} = useAuthStore();
+  const {
+    notification,
+    selectedUser,
+    setSelectedUser,
+    newMessage,
+    getUsers,
+    users,
+    messages,
+    getMessages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
+  } = useChatStore();
 
+  const [clicked, setClicked] = useState(false);
+
+
+  useEffect(() => {
+    getUsers()
+  }, []);   
+
+
+  const hoverNotificationHandler = () => {
+    setClicked(!clicked);
+
+    if(clicked){
+      notification.length = 0;
+    }
+    
+  }
+
+  const notificationClick = () => {
+    const sender = users.find(user => user._id === notification[0]?.senderId);
+    if (sender && selectedUser._id !== sender._id) {
+      setSelectedUser(sender);
+    }
+  };
+
+
+  // console.log(notification)
   return (
     <header className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg bg-base-100/80">
       <div className="container mx-auto px-4 h-16">
@@ -31,6 +70,27 @@ const Navbar = () => {
                 <Link to={"/profile"} className={`btn btn-sm gap-2`}>
                   <User className='size-5'/>
                   <span className="hidden sm:inline"></span>
+                </Link>
+
+
+                <Link className={`btn btn-sm gap-2 relative mr-2`} onClick={hoverNotificationHandler}>
+                  <Bell onClick={hoverNotificationHandler}/>
+                  <span className='absolute top-0 right-0 text-green-700'>{notification.length > 0 && notification.length}</span>
+                  <div className={`absolute bottom-[-8vh] rounded-md ${clicked ? '' : 'hidden'}`} id="noty" onClick={notificationClick}>
+                  <p className="bg-primary text-primary-content w-[25vw] h-[7vh] flex justify-center items-center">
+                      {notification.length === 0 ? (
+                        'No message'
+                      ) : (
+                        users.map((user) =>
+                          user._id === notification[0]?.senderId && (
+                            `You have ${notification.length} ${notification.length > 1 ? "messages" : "message"} from ${user.fullName}`
+                          ) 
+                          
+                        )
+                      )}
+                      
+                    </p>
+                  </div>
                 </Link>
 
                 <button className="flex gap-2 items-center" onClick={logout}>
